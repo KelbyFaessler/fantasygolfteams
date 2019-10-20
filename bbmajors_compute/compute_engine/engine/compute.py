@@ -27,39 +27,15 @@ import csv
 from typing import List
 from time import perf_counter
 
+# Python modules
+from compute_types import Player, PlayerPair, PlayerTeam
+
 # Cython modules
 from compute_cpp import CalculateCombinationsCpp
 
 DEFAULT_NUM_TEAMS = 10
 TOTAL_ALLOWABLE_COST = 30000
-
-class Player:
-    def __init__(self, name: str='', cost: float=0.0, birdie_avg: float=0.0):
-        self.name = name
-        self.cost = cost
-        self.birdie_avg = birdie_avg
-
-class PlayerPair:
-    def __init__(self, player1: Player, player2: Player):
-        self.player1 = player1
-        self.player2 = player2
-        self.total_cost = self.player1.cost + self.player2.cost
-        self.total_birdie_avg = self.player1.birdie_avg + self.player2.birdie_avg
-
-class PlayerTeam:
-    def __init__(self, player1: Player, player2: Player, player3: Player, player4: Player):
-        self.player1 = player1
-        self.player2 = player2
-        self.player3 = player3
-        self.player4 = player4
-        self.total_cost = ( self.player1.cost + 
-                            self.player2.cost + 
-                            self.player3.cost + 
-                            self.player4.cost)
-        self.total_birdie_avg = (self.player1.birdie_avg + 
-                                    self.player2.birdie_avg + 
-                                    self.player3.birdie_avg + 
-                                    self.player4.birdie_avg)    
+  
 
 def calculate_combos(players: List[Player], num_teams: int=None) -> None:
     if num_teams == None:
@@ -128,7 +104,9 @@ def calculate_combos_cmd_line(raw_costs_filename: str, num_teams: int) -> None:
     #calculate_combos(players, num_teams)
     #TODO: remove this debug print statement
     print("In python file before cpp call")
-    CalculateCombinationsCpp(players, num_teams)
+    results = CalculateCombinationsCpp(players, num_teams)
+    print_teams(results)
+
 
 def read_players_from_file(filename: str, players: List[Player]) -> List[Player]:
     with open(filename) as file:

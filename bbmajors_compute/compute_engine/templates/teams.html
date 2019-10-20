@@ -1,53 +1,118 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load i18n %}
+{% load widget_tweaks %}
 
 {% block includes %}
-
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
-  rel="stylesheet"
-  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-  crossorigin="anonymous">
-
-  <link rel="stylesheet" href="{% static 'css/teams.css' %}">
+<link rel="stylesheet" href="{% static 'css/teams.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="site-wrapper">
-    <div class="site-wrapper-inner">
-        <div class="cover-container">
-            <div class="masthead clearfix">
-                <div class="inner">
-                    <h3 class="masthead-brand">Dev Refresh</h3>
-                    <nav>
-                    <ul class="nav masthead-nav">
-                        <li class="active"><a href="{% url 'teams' %}">Teams</a></li>
-                        {% if user.is_authenticated %}
-                        <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-                        {% else %}
-                        <li><a href="{% url 'account_login' %}">Sign In</a></li>
-                        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
-                        {% endif %}    
-                    </ul>
-                    </nav>
+    <div class="header d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 "> <!--border-bottom border-secondary-->
+        <h4 class="my-0 mr-md-auto font-weight-bold">Fantasy Golf Teams</h4>
+        <!-- <nav class="my-2 my-md-0 mr-md-3">
+          <a class="p-2 text-dark" href="#">Features</a>
+          <a class="p-2 text-dark" href="#">Enterprise</a>
+          <a class="p-2 text-dark" href="#">Support</a>
+          <a class="p-2 text-dark" href="#">Pricing</a>
+        </nav> -->
+        <a class="btn btn-outline-green" href="{% url 'account_logout' %}">Log out</a>
+      </div>
+
+
+    <div class="container-fluid">
+        <div class="row py-5">
+            <div class="col-md-6">
+                <form class="form-base form-calculate text-center" method="POST" action="{% url 'teams' %}">
+                    {% csrf_token %}
+                    <h3 class="mt-4 mb-1">{% trans "Enter information:" %}</h3>
+                    <label class="mt-4" for="numberOfTeams">Number of desired teams in results:</label>
+                    {{ form.num_teams|add_class:"form-control mb-4"|attr:"type:text"|attr:"name:teams"|attr:"placeholder:default = 10"|attr:"autofocus" }}
+                    
+                    <label class="" for="playersAndCosts">Player costs:</label>
+                    {{ form.players|add_class:"form-control"|attr:"cols:80"|attr:"rows:10"|attr:"maxlength:4000"|attr:"placeholder:Copy/paste players with costs"|attr:"required" }}
+
+                
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    <button id="calc_button" class="btn btn-lg btn-primary btn-green my-4" type="submit">{% trans "Calculate" %}</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="results">
+                    <h3 class="text-center mt-4 mb-3">{% trans "Results:" %}</h3>
+                    <div id="id_teams" class="teams">
+
+                    </div>
                 </div>
             </div>
-
-            <p>TEAMS TEXT BOX</p>
         </div>
     </div>
-</div>
-{% endblock %}
 
+    <div class="container-fluid px-0">
+        <footer class="py-4">
+            <p class="my-1"><em>&copy Copyright 2018 - 2019 Kelby Faessler, All rights reserved</em></p>
+        </footer>
+    </div>
+
+{% endblock %}
 
 
 {% block scripts %}
-<script
-  src="https://code.jquery.com/jquery-1.12.4.min.js"
-  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-  crossorigin="anonymous"></script>
-<script 
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-    crossorigin="anonymous"></script>
+    <script src="{% static 'js/csrf.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            var $myForm = $(".form-calculate")
+            $myForm.submit(function(event) {
+                event.preventDefault()
+                //TODO: remove log
+                //console.log("prevented form submission!")
+
+                $.ajax({
+                    method: "POST",
+                    url: "{% url 'calculate_teams' %}",
+                    data: {
+                        'num_teams': $("#id_num_teams").val(),
+                        'players': $("#id_players").val()
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        $("#id_teams").empty()
+                        if (data.teams) {
+                            $("#id_teams").append('<table id="id_best_teams"></table>');
+                            $("#id_best_teams").append("<tr><th>Name</th><th>Cost</th><th>Birdie Avg</th></tr>");
+                            var team_num = 1
+                            $.each(data.teams, function(key, team) {
+                                var team_id_str = 'id_team_' + team_num
+                                $("#id_best_teams").append('<tr id="' + team_id_str + '" class="team-header"><td>Team ' + team_num + "</td></tr>");
+                                var team_cost = 0.0
+                                var team_birdie_avg = 0.0
+                                $.each(team, function(key, player) {
+                                    //names of fields: name, cost, birdie_avg
+                                    $("#id_best_teams").append("<tr><td>" + player.name + "</td><td>" + player.cost + "</td><td>" + player.birdie_avg.toFixed(2) + "</td></tr>");
+                                    team_cost += player.cost
+                                    team_birdie_avg += player.birdie_avg
+                                });
+                                $("#" + team_id_str).append("<td>" + team_cost + "</td>");
+                                $("#" + team_id_str).append("<td>" + team_birdie_avg.toFixed(2) + "</td>");
+                                team_num++;
+                            });
+                        }
+                        $("#id_teams").append('<p class="mt-4 mb-1"><b>Players not found with birdie avg:</b></p>')
+                        if (data.players_not_found) {
+                            $("#id_teams").append('<table id="id_players_not_found"></table>');
+                            $.each(data.players_not_found, function(key, value) {
+                                $("#id_players_not_found").append("<tr><td>" + value + "</td></tr>")
+                            });
+                            //$("#id_teams").append("</table>")
+                        }
+                    }
+                });
+            })
+        });
+    </script>
+
 {% endblock %}
+

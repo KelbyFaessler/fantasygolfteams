@@ -430,9 +430,6 @@ void PrintBestCombinations(std::vector<Player>& players, std::vector<Team>& resu
 
 void CalculateCombinations2(std::vector<Player>& players, std::vector<Team>& results, int numTeams)
 {
-    //TODO: Remove this debug print statement
-    std::cout << "Inside cpp code" << std::endl;
-
     auto timeBegin = Clock::now();
 
     std::priority_queue<Team, std::vector<Team>, greater_than_birdie_avg> minBirdieAvgQueue;
