@@ -924,6 +924,16 @@ static const char *__pyx_f[] = {
 #define __Pyx_CLEAR(r)    do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r)   do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
 
+/* PyObjectGetAttrStr.proto */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name);
+#else
+#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
+#endif
+
+/* GetBuiltinName.proto */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name);
+
 /* RaiseArgTupleInvalid.proto */
 static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
     Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
@@ -935,13 +945,6 @@ static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_n
 static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
     PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
     const char* function_name);
-
-/* PyObjectGetAttrStr.proto */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name);
-#else
-#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
-#endif
 
 /* PyCFunctionFastCall.proto */
 #if CYTHON_FAST_PYCCALL
@@ -1170,14 +1173,17 @@ static void __Pyx_CppExn2PyErr() {
 }
 #endif
 
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
+
 /* CIntFromPy.proto */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
-/* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
-
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
+
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* FastTypeChecks.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -1217,23 +1223,24 @@ extern int __pyx_module_is_main_bbmajors_compute__compute_engine__engine__comput
 int __pyx_module_is_main_bbmajors_compute__compute_engine__engine__compute_cpp = 0;
 
 /* Implementation of 'bbmajors_compute.compute_engine.engine.compute_cpp' */
+static PyObject *__pyx_builtin_range;
 static const char __pyx_k_cost[] = "cost";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "name";
 static const char __pyx_k_team[] = "team";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_UTF_8[] = "UTF-8";
+static const char __pyx_k_range[] = "range";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_name_2[] = "__name__";
 static const char __pyx_k_player[] = "player";
 static const char __pyx_k_players[] = "players";
 static const char __pyx_k_num_teams[] = "num_teams";
+static const char __pyx_k_playerCpp[] = "playerCpp";
 static const char __pyx_k_birdie_avg[] = "birdie_avg";
-static const char __pyx_k_player1Cpp[] = "player1Cpp";
-static const char __pyx_k_player2Cpp[] = "player2Cpp";
-static const char __pyx_k_player3Cpp[] = "player3Cpp";
-static const char __pyx_k_player4Cpp[] = "player4Cpp";
+static const char __pyx_k_num_players[] = "num_players";
 static const char __pyx_k_newPlayerCpp[] = "newPlayerCpp";
+static const char __pyx_k_player_index[] = "player_index";
 static const char __pyx_k_players_list[] = "players_list";
 static const char __pyx_k_results_list[] = "results_list";
 static const char __pyx_k_players_vector[] = "players_vector";
@@ -1257,15 +1264,15 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_u_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_newPlayerCpp;
+static PyObject *__pyx_n_s_num_players;
 static PyObject *__pyx_n_s_num_teams;
 static PyObject *__pyx_n_s_player;
-static PyObject *__pyx_n_s_player1Cpp;
-static PyObject *__pyx_n_s_player2Cpp;
-static PyObject *__pyx_n_s_player3Cpp;
-static PyObject *__pyx_n_s_player4Cpp;
+static PyObject *__pyx_n_s_playerCpp;
+static PyObject *__pyx_n_s_player_index;
 static PyObject *__pyx_n_s_players;
 static PyObject *__pyx_n_s_players_list;
 static PyObject *__pyx_n_s_players_vector;
+static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_results_list;
 static PyObject *__pyx_n_s_results_vector;
 static PyObject *__pyx_n_s_team;
@@ -1275,8 +1282,8 @@ static PyObject *__pyx_tuple_;
 static PyObject *__pyx_codeobj__2;
 /* Late includes */
 
-/* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":15
- * #from compute import PlayerTeam as PlayerTeamPy
+/* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":11
+ * 
  * 
  * def CalculateCombinationsCpp(players_list, num_teams):             # <<<<<<<<<<<<<<
  *     cdef vector[PlayerCpp] players_vector
@@ -1315,11 +1322,11 @@ static PyObject *__pyx_pw_16bbmajors_compute_14compute_engine_6engine_11compute_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_num_teams)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("CalculateCombinationsCpp", 1, 2, 2, 1); __PYX_ERR(0, 15, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("CalculateCombinationsCpp", 1, 2, 2, 1); __PYX_ERR(0, 11, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CalculateCombinationsCpp") < 0)) __PYX_ERR(0, 15, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "CalculateCombinationsCpp") < 0)) __PYX_ERR(0, 11, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1332,7 +1339,7 @@ static PyObject *__pyx_pw_16bbmajors_compute_14compute_engine_6engine_11compute_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("CalculateCombinationsCpp", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 15, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("CalculateCombinationsCpp", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 11, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("bbmajors_compute.compute_engine.engine.compute_cpp.CalculateCombinationsCpp", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1351,12 +1358,11 @@ static PyObject *__pyx_pf_16bbmajors_compute_14compute_engine_6engine_11compute_
   PyObject *__pyx_v_player = NULL;
   std::vector<Team>  __pyx_v_results_vector;
   PyObject *__pyx_v_results_list = NULL;
-  struct Player __pyx_v_player1Cpp;
-  struct Player __pyx_v_player2Cpp;
-  struct Player __pyx_v_player3Cpp;
-  struct Player __pyx_v_player4Cpp;
+  struct Player __pyx_v_playerCpp;
   Team __pyx_v_team;
   PyObject *__pyx_v_players = NULL;
+  int __pyx_v_num_players;
+  long __pyx_v_player_index;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1371,9 +1377,11 @@ static PyObject *__pyx_pf_16bbmajors_compute_14compute_engine_6engine_11compute_
   std::vector<Team> ::iterator __pyx_t_10;
   Team __pyx_t_11;
   int __pyx_t_12;
+  long __pyx_t_13;
+  int __pyx_t_14;
   __Pyx_RefNannySetupContext("CalculateCombinationsCpp", 0);
 
-  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":18
+  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":14
  *     cdef vector[PlayerCpp] players_vector
  *     cdef PlayerCpp newPlayerCpp
  *     for player in players_list:             # <<<<<<<<<<<<<<
@@ -1384,26 +1392,26 @@ static PyObject *__pyx_pf_16bbmajors_compute_14compute_engine_6engine_11compute_
     __pyx_t_1 = __pyx_v_players_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_players_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_players_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 18, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 14, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 18, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 14, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 18, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 14, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 18, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 14, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 18, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 14, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -1413,7 +1421,7 @@ static PyObject *__pyx_pf_16bbmajors_compute_14compute_engine_6engine_11compute_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 18, __pyx_L1_error)
+          else __PYX_ERR(0, 14, __pyx_L1_error)
         }
         break;
       }
@@ -1422,16 +1430,16 @@ static PyObject *__pyx_pf_16bbmajors_compute_14compute_engine_6engine_11compute_
     __Pyx_XDECREF_SET(__pyx_v_player, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":19
+    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":15
  *     cdef PlayerCpp newPlayerCpp
  *     for player in players_list:
  *         newPlayerCpp.name = player.name.encode("UTF-8")             # <<<<<<<<<<<<<<
  *         newPlayerCpp.cost = player.cost
  *         newPlayerCpp.birdieAvg = player.birdie_avg
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_player, __pyx_n_s_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_player, __pyx_n_s_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_encode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_encode); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -1446,40 +1454,40 @@ static PyObject *__pyx_pf_16bbmajors_compute_14compute_engine_6engine_11compute_
     }
     __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_5, __pyx_kp_u_UTF_8) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_kp_u_UTF_8);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 19, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_7 = __pyx_convert_string_from_py_std__in_string(__pyx_t_4); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 19, __pyx_L1_error)
+    __pyx_t_7 = __pyx_convert_string_from_py_std__in_string(__pyx_t_4); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_newPlayerCpp.name = __pyx_t_7;
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":20
+    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":16
  *     for player in players_list:
  *         newPlayerCpp.name = player.name.encode("UTF-8")
  *         newPlayerCpp.cost = player.cost             # <<<<<<<<<<<<<<
  *         newPlayerCpp.birdieAvg = player.birdie_avg
  *         players_vector.push_back(newPlayerCpp)
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_player, __pyx_n_s_cost); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 20, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_player, __pyx_n_s_cost); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_8 = __pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_8 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
+    __pyx_t_8 = __pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_8 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_newPlayerCpp.cost = __pyx_t_8;
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":21
+    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":17
  *         newPlayerCpp.name = player.name.encode("UTF-8")
  *         newPlayerCpp.cost = player.cost
  *         newPlayerCpp.birdieAvg = player.birdie_avg             # <<<<<<<<<<<<<<
  *         players_vector.push_back(newPlayerCpp)
  *     cdef vector[Team] results_vector
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_player, __pyx_n_s_birdie_avg); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 21, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_player, __pyx_n_s_birdie_avg); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 17, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_8 = __pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_8 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 21, __pyx_L1_error)
+    __pyx_t_8 = __pyx_PyFloat_AsFloat(__pyx_t_4); if (unlikely((__pyx_t_8 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_newPlayerCpp.birdieAvg = __pyx_t_8;
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":22
+    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":18
  *         newPlayerCpp.cost = player.cost
  *         newPlayerCpp.birdieAvg = player.birdie_avg
  *         players_vector.push_back(newPlayerCpp)             # <<<<<<<<<<<<<<
@@ -1490,10 +1498,10 @@ static PyObject *__pyx_pf_16bbmajors_compute_14compute_engine_6engine_11compute_
       __pyx_v_players_vector.push_back(__pyx_v_newPlayerCpp);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 22, __pyx_L1_error)
+      __PYX_ERR(0, 18, __pyx_L1_error)
     }
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":18
+    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":14
  *     cdef vector[PlayerCpp] players_vector
  *     cdef PlayerCpp newPlayerCpp
  *     for player in players_list:             # <<<<<<<<<<<<<<
@@ -1503,34 +1511,34 @@ static PyObject *__pyx_pf_16bbmajors_compute_14compute_engine_6engine_11compute_
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":24
+  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":20
  *         players_vector.push_back(newPlayerCpp)
  *     cdef vector[Team] results_vector
  *     CalculateCombinations2(players_vector, results_vector, num_teams)             # <<<<<<<<<<<<<<
  * 
- *     #For now, print results
+ *     results_list = []
  */
-  __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_v_num_teams); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_v_num_teams); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
   CalculateCombinations2(__pyx_v_players_vector, __pyx_v_results_vector, __pyx_t_9);
 
-  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":37
- *     #    print("--------------------------------------------")
+  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":22
+ *     CalculateCombinations2(players_vector, results_vector, num_teams)
  * 
  *     results_list = []             # <<<<<<<<<<<<<<
- *     cdef PlayerCpp player1Cpp
- *     cdef PlayerCpp player2Cpp
+ *     cdef PlayerCpp playerCpp
+ *     for team in results_vector:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_results_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":42
- *     cdef PlayerCpp player3Cpp
- *     cdef PlayerCpp player4Cpp
+  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":24
+ *     results_list = []
+ *     cdef PlayerCpp playerCpp
  *     for team in results_vector:             # <<<<<<<<<<<<<<
  *         players = []
- *         player1Cpp = team.GetPlayer1()
+ *         num_players = team.GetNumPlayers()
  */
   __pyx_t_10 = __pyx_v_results_vector.begin();
   for (;;) {
@@ -1539,169 +1547,92 @@ static PyObject *__pyx_pf_16bbmajors_compute_14compute_engine_6engine_11compute_
     ++__pyx_t_10;
     __pyx_v_team = __pyx_t_11;
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":43
- *     cdef PlayerCpp player4Cpp
+    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":25
+ *     cdef PlayerCpp playerCpp
  *     for team in results_vector:
  *         players = []             # <<<<<<<<<<<<<<
- *         player1Cpp = team.GetPlayer1()
- *         players.append({'name': player1Cpp.name.decode("UTF-8"), 'cost': player1Cpp.cost, 'birdie_avg': player1Cpp.birdieAvg})
+ *         num_players = team.GetNumPlayers()
+ *         for player_index in range(0, num_players):
  */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_players, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":44
+    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":26
  *     for team in results_vector:
  *         players = []
- *         player1Cpp = team.GetPlayer1()             # <<<<<<<<<<<<<<
- *         players.append({'name': player1Cpp.name.decode("UTF-8"), 'cost': player1Cpp.cost, 'birdie_avg': player1Cpp.birdieAvg})
- *         #player1 = PlayerPy(player1Cpp.name, player1Cpp.cost, player1Cpp.birdieAvg)
+ *         num_players = team.GetNumPlayers()             # <<<<<<<<<<<<<<
+ *         for player_index in range(0, num_players):
+ *             playerCpp = team.GetPlayer(player_index)
  */
-    __pyx_v_player1Cpp = __pyx_v_team.GetPlayer1();
+    __pyx_v_num_players = __pyx_v_team.GetNumPlayers();
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":45
+    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":27
  *         players = []
- *         player1Cpp = team.GetPlayer1()
- *         players.append({'name': player1Cpp.name.decode("UTF-8"), 'cost': player1Cpp.cost, 'birdie_avg': player1Cpp.birdieAvg})             # <<<<<<<<<<<<<<
- *         #player1 = PlayerPy(player1Cpp.name, player1Cpp.cost, player1Cpp.birdieAvg)
- *         player2Cpp = team.GetPlayer2()
+ *         num_players = team.GetNumPlayers()
+ *         for player_index in range(0, num_players):             # <<<<<<<<<<<<<<
+ *             playerCpp = team.GetPlayer(player_index)
+ *             players.append({'name': playerCpp.name.decode("UTF-8"), 'cost': playerCpp.cost, 'birdie_avg': playerCpp.birdieAvg})
  */
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_decode_cpp_string(__pyx_v_player1Cpp.name, 0, PY_SSIZE_T_MAX, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_t_4) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_player1Cpp.cost); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_cost, __pyx_t_4) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_player1Cpp.birdieAvg); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_birdie_avg, __pyx_t_4) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_players, __pyx_t_1); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 45, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_9 = __pyx_v_num_players;
+    __pyx_t_12 = __pyx_t_9;
+    for (__pyx_t_13 = 0; __pyx_t_13 < __pyx_t_12; __pyx_t_13+=1) {
+      __pyx_v_player_index = __pyx_t_13;
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":47
- *         players.append({'name': player1Cpp.name.decode("UTF-8"), 'cost': player1Cpp.cost, 'birdie_avg': player1Cpp.birdieAvg})
- *         #player1 = PlayerPy(player1Cpp.name, player1Cpp.cost, player1Cpp.birdieAvg)
- *         player2Cpp = team.GetPlayer2()             # <<<<<<<<<<<<<<
- *         players.append({'name': player2Cpp.name.decode("UTF-8"), 'cost': player2Cpp.cost, 'birdie_avg': player2Cpp.birdieAvg})
- *         #player2 = PlayerPy(player2Cpp.name, player2Cpp.cost, player2Cpp.birdieAvg)
+      /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":28
+ *         num_players = team.GetNumPlayers()
+ *         for player_index in range(0, num_players):
+ *             playerCpp = team.GetPlayer(player_index)             # <<<<<<<<<<<<<<
+ *             players.append({'name': playerCpp.name.decode("UTF-8"), 'cost': playerCpp.cost, 'birdie_avg': playerCpp.birdieAvg})
+ *         results_list.append(players)
  */
-    __pyx_v_player2Cpp = __pyx_v_team.GetPlayer2();
+      __pyx_v_playerCpp = __pyx_v_team.GetPlayer(__pyx_v_player_index);
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":48
- *         #player1 = PlayerPy(player1Cpp.name, player1Cpp.cost, player1Cpp.birdieAvg)
- *         player2Cpp = team.GetPlayer2()
- *         players.append({'name': player2Cpp.name.decode("UTF-8"), 'cost': player2Cpp.cost, 'birdie_avg': player2Cpp.birdieAvg})             # <<<<<<<<<<<<<<
- *         #player2 = PlayerPy(player2Cpp.name, player2Cpp.cost, player2Cpp.birdieAvg)
- *         player3Cpp = team.GetPlayer3()
+      /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":29
+ *         for player_index in range(0, num_players):
+ *             playerCpp = team.GetPlayer(player_index)
+ *             players.append({'name': playerCpp.name.decode("UTF-8"), 'cost': playerCpp.cost, 'birdie_avg': playerCpp.birdieAvg})             # <<<<<<<<<<<<<<
+ *         results_list.append(players)
+ * 
  */
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_decode_cpp_string(__pyx_v_player2Cpp.name, 0, PY_SSIZE_T_MAX, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_t_4) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_player2Cpp.cost); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_cost, __pyx_t_4) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_player2Cpp.birdieAvg); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_birdie_avg, __pyx_t_4) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_players, __pyx_t_1); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 48, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_4 = __Pyx_decode_cpp_string(__pyx_v_playerCpp.name, 0, PY_SSIZE_T_MAX, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_t_4) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = PyFloat_FromDouble(__pyx_v_playerCpp.cost); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_cost, __pyx_t_4) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = PyFloat_FromDouble(__pyx_v_playerCpp.birdieAvg); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_birdie_avg, __pyx_t_4) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_players, __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 29, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    }
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":50
- *         players.append({'name': player2Cpp.name.decode("UTF-8"), 'cost': player2Cpp.cost, 'birdie_avg': player2Cpp.birdieAvg})
- *         #player2 = PlayerPy(player2Cpp.name, player2Cpp.cost, player2Cpp.birdieAvg)
- *         player3Cpp = team.GetPlayer3()             # <<<<<<<<<<<<<<
- *         players.append({'name': player3Cpp.name.decode("UTF-8"), 'cost': player3Cpp.cost, 'birdie_avg': player3Cpp.birdieAvg})
- *         #player3 = PlayerPy(player3Cpp.name, player3Cpp.cost, player3Cpp.birdieAvg)
- */
-    __pyx_v_player3Cpp = __pyx_v_team.GetPlayer3();
-
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":51
- *         #player2 = PlayerPy(player2Cpp.name, player2Cpp.cost, player2Cpp.birdieAvg)
- *         player3Cpp = team.GetPlayer3()
- *         players.append({'name': player3Cpp.name.decode("UTF-8"), 'cost': player3Cpp.cost, 'birdie_avg': player3Cpp.birdieAvg})             # <<<<<<<<<<<<<<
- *         #player3 = PlayerPy(player3Cpp.name, player3Cpp.cost, player3Cpp.birdieAvg)
- *         player4Cpp = team.GetPlayer4()
- */
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_decode_cpp_string(__pyx_v_player3Cpp.name, 0, PY_SSIZE_T_MAX, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_t_4) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_player3Cpp.cost); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_cost, __pyx_t_4) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_player3Cpp.birdieAvg); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_birdie_avg, __pyx_t_4) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_players, __pyx_t_1); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 51, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":53
- *         players.append({'name': player3Cpp.name.decode("UTF-8"), 'cost': player3Cpp.cost, 'birdie_avg': player3Cpp.birdieAvg})
- *         #player3 = PlayerPy(player3Cpp.name, player3Cpp.cost, player3Cpp.birdieAvg)
- *         player4Cpp = team.GetPlayer4()             # <<<<<<<<<<<<<<
- *         players.append({'name': player4Cpp.name.decode("UTF-8"), 'cost': player4Cpp.cost, 'birdie_avg': player4Cpp.birdieAvg})
- *         #player4 = PlayerPy(player4Cpp.name, player4Cpp.cost, player4Cpp.birdieAvg)
- */
-    __pyx_v_player4Cpp = __pyx_v_team.GetPlayer4();
-
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":54
- *         #player3 = PlayerPy(player3Cpp.name, player3Cpp.cost, player3Cpp.birdieAvg)
- *         player4Cpp = team.GetPlayer4()
- *         players.append({'name': player4Cpp.name.decode("UTF-8"), 'cost': player4Cpp.cost, 'birdie_avg': player4Cpp.birdieAvg})             # <<<<<<<<<<<<<<
- *         #player4 = PlayerPy(player4Cpp.name, player4Cpp.cost, player4Cpp.birdieAvg)
- *         #results_list.append(PlayerTeamPy(player1, player2, player3, player4))
- */
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_decode_cpp_string(__pyx_v_player4Cpp.name, 0, PY_SSIZE_T_MAX, NULL, NULL, PyUnicode_DecodeUTF8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_name, __pyx_t_4) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_player4Cpp.cost); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_cost, __pyx_t_4) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_player4Cpp.birdieAvg); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_1, __pyx_n_u_birdie_avg, __pyx_t_4) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_players, __pyx_t_1); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 54, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":57
- *         #player4 = PlayerPy(player4Cpp.name, player4Cpp.cost, player4Cpp.birdieAvg)
- *         #results_list.append(PlayerTeamPy(player1, player2, player3, player4))
+    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":30
+ *             playerCpp = team.GetPlayer(player_index)
+ *             players.append({'name': playerCpp.name.decode("UTF-8"), 'cost': playerCpp.cost, 'birdie_avg': playerCpp.birdieAvg})
  *         results_list.append(players)             # <<<<<<<<<<<<<<
  * 
  *     return results_list
  */
-    __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_results_list, __pyx_v_players); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 57, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_results_list, __pyx_v_players); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 30, __pyx_L1_error)
 
-    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":42
- *     cdef PlayerCpp player3Cpp
- *     cdef PlayerCpp player4Cpp
+    /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":24
+ *     results_list = []
+ *     cdef PlayerCpp playerCpp
  *     for team in results_vector:             # <<<<<<<<<<<<<<
  *         players = []
- *         player1Cpp = team.GetPlayer1()
+ *         num_players = team.GetNumPlayers()
  */
   }
 
-  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":59
+  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":32
  *         results_list.append(players)
  * 
  *     return results_list             # <<<<<<<<<<<<<<
@@ -1711,8 +1642,8 @@ static PyObject *__pyx_pf_16bbmajors_compute_14compute_engine_6engine_11compute_
   __pyx_r = __pyx_v_results_list;
   goto __pyx_L0;
 
-  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":15
- * #from compute import PlayerTeam as PlayerTeamPy
+  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":11
+ * 
  * 
  * def CalculateCombinationsCpp(players_list, num_teams):             # <<<<<<<<<<<<<<
  *     cdef vector[PlayerCpp] players_vector
@@ -2084,15 +2015,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 1, 0, 1},
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_n_s_newPlayerCpp, __pyx_k_newPlayerCpp, sizeof(__pyx_k_newPlayerCpp), 0, 0, 1, 1},
+  {&__pyx_n_s_num_players, __pyx_k_num_players, sizeof(__pyx_k_num_players), 0, 0, 1, 1},
   {&__pyx_n_s_num_teams, __pyx_k_num_teams, sizeof(__pyx_k_num_teams), 0, 0, 1, 1},
   {&__pyx_n_s_player, __pyx_k_player, sizeof(__pyx_k_player), 0, 0, 1, 1},
-  {&__pyx_n_s_player1Cpp, __pyx_k_player1Cpp, sizeof(__pyx_k_player1Cpp), 0, 0, 1, 1},
-  {&__pyx_n_s_player2Cpp, __pyx_k_player2Cpp, sizeof(__pyx_k_player2Cpp), 0, 0, 1, 1},
-  {&__pyx_n_s_player3Cpp, __pyx_k_player3Cpp, sizeof(__pyx_k_player3Cpp), 0, 0, 1, 1},
-  {&__pyx_n_s_player4Cpp, __pyx_k_player4Cpp, sizeof(__pyx_k_player4Cpp), 0, 0, 1, 1},
+  {&__pyx_n_s_playerCpp, __pyx_k_playerCpp, sizeof(__pyx_k_playerCpp), 0, 0, 1, 1},
+  {&__pyx_n_s_player_index, __pyx_k_player_index, sizeof(__pyx_k_player_index), 0, 0, 1, 1},
   {&__pyx_n_s_players, __pyx_k_players, sizeof(__pyx_k_players), 0, 0, 1, 1},
   {&__pyx_n_s_players_list, __pyx_k_players_list, sizeof(__pyx_k_players_list), 0, 0, 1, 1},
   {&__pyx_n_s_players_vector, __pyx_k_players_vector, sizeof(__pyx_k_players_vector), 0, 0, 1, 1},
+  {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_results_list, __pyx_k_results_list, sizeof(__pyx_k_results_list), 0, 0, 1, 1},
   {&__pyx_n_s_results_vector, __pyx_k_results_vector, sizeof(__pyx_k_results_vector), 0, 0, 1, 1},
   {&__pyx_n_s_team, __pyx_k_team, sizeof(__pyx_k_team), 0, 0, 1, 1},
@@ -2100,24 +2031,27 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 27, __pyx_L1_error)
   return 0;
+  __pyx_L1_error:;
+  return -1;
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":15
- * #from compute import PlayerTeam as PlayerTeamPy
+  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":11
+ * 
  * 
  * def CalculateCombinationsCpp(players_list, num_teams):             # <<<<<<<<<<<<<<
  *     cdef vector[PlayerCpp] players_vector
  *     cdef PlayerCpp newPlayerCpp
  */
-  __pyx_tuple_ = PyTuple_Pack(13, __pyx_n_s_players_list, __pyx_n_s_num_teams, __pyx_n_s_players_vector, __pyx_n_s_newPlayerCpp, __pyx_n_s_player, __pyx_n_s_results_vector, __pyx_n_s_results_list, __pyx_n_s_player1Cpp, __pyx_n_s_player2Cpp, __pyx_n_s_player3Cpp, __pyx_n_s_player4Cpp, __pyx_n_s_team, __pyx_n_s_players); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(12, __pyx_n_s_players_list, __pyx_n_s_num_teams, __pyx_n_s_players_vector, __pyx_n_s_newPlayerCpp, __pyx_n_s_player, __pyx_n_s_results_vector, __pyx_n_s_results_list, __pyx_n_s_playerCpp, __pyx_n_s_team, __pyx_n_s_players, __pyx_n_s_num_players, __pyx_n_s_player_index); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(2, 0, 13, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_bbmajors_compute_compute_engine, __pyx_n_s_CalculateCombinationsCpp, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(2, 0, 12, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_bbmajors_compute_compute_engine, __pyx_n_s_CalculateCombinationsCpp, 11, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -2393,16 +2327,16 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":15
- * #from compute import PlayerTeam as PlayerTeamPy
+  /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":11
+ * 
  * 
  * def CalculateCombinationsCpp(players_list, num_teams):             # <<<<<<<<<<<<<<
  *     cdef vector[PlayerCpp] players_vector
  *     cdef PlayerCpp newPlayerCpp
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_16bbmajors_compute_14compute_engine_6engine_11compute_cpp_1CalculateCombinationsCpp, NULL, __pyx_n_s_bbmajors_compute_compute_engine_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_16bbmajors_compute_14compute_engine_6engine_11compute_cpp_1CalculateCombinationsCpp, NULL, __pyx_n_s_bbmajors_compute_compute_engine_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CalculateCombinationsCpp, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CalculateCombinationsCpp, __pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "bbmajors_compute/compute_engine/engine/compute_cpp.pyx":1
@@ -2464,6 +2398,34 @@ end:
     return (__Pyx_RefNannyAPIStruct *)r;
 }
 #endif
+
+/* PyObjectGetAttrStr */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_getattro))
+        return tp->tp_getattro(obj, attr_name);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_getattr))
+        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
+#endif
+    return PyObject_GetAttr(obj, attr_name);
+}
+#endif
+
+/* GetBuiltinName */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
+    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
+    if (unlikely(!result)) {
+        PyErr_Format(PyExc_NameError,
+#if PY_MAJOR_VERSION >= 3
+            "name '%U' is not defined", name);
+#else
+            "name '%.200s' is not defined", PyString_AS_STRING(name));
+#endif
+    }
+    return result;
+}
 
 /* RaiseArgTupleInvalid */
 static void __Pyx_RaiseArgtupleInvalid(
@@ -2606,20 +2568,6 @@ invalid_keyword:
 bad:
     return -1;
 }
-
-/* PyObjectGetAttrStr */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_getattro))
-        return tp->tp_getattro(obj, attr_name);
-#if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_getattr))
-        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
-#endif
-    return PyObject_GetAttr(obj, attr_name);
-}
-#endif
 
 /* PyCFunctionFastCall */
 #if CYTHON_FAST_PYCCALL
@@ -3178,6 +3126,37 @@ bad:
         return (target_type) value;\
     }
 
+/* CIntToPy */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
+    const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(int) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(int) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(int) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(int) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(int),
+                                     little, !is_unsigned);
+    }
+}
+
 /* CIntFromPy */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
     const int neg_one = (int) ((int) 0 - (int) 1), const_zero = (int) 0;
@@ -3367,37 +3346,6 @@ raise_neg_overflow:
     return (int) -1;
 }
 
-/* CIntToPy */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
-    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(long) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(long) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
-            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
-#endif
-        }
-    } else {
-        if (sizeof(long) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
-            return PyLong_FromLongLong((PY_LONG_LONG) value);
-#endif
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(long),
-                                     little, !is_unsigned);
-    }
-}
-
 /* CIntFromPy */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
     const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
@@ -3585,6 +3533,37 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to long");
     return (long) -1;
+}
+
+/* CIntToPy */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
+    const long neg_one = (long) ((long) 0 - (long) 1), const_zero = (long) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(long) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(long) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(long) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(long),
+                                     little, !is_unsigned);
+    }
 }
 
 /* FastTypeChecks */

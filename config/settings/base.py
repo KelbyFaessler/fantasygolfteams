@@ -111,9 +111,6 @@ DATABASES = {
     }
 }
 
-# TODO: Remove this debug code
-# AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
-# TODO: end debug code
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -137,16 +134,6 @@ ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 LOGIN_REDIRECT_URL = 'players'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_LOGOUT_ON_GET = True
-
-# Use email instead of username for logins
-# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-# ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
-# 
-# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
-# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-# ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-# ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400 # 1 day in seconds
-#LOGIN_URL = '/accounts/login/'
 
 
 

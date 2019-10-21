@@ -11,12 +11,6 @@
 {% block content %}
     <div class="header d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 "> <!--border-bottom border-secondary-->
         <h4 class="my-0 mr-md-auto font-weight-bold">Fantasy Golf Teams</h4>
-        <!-- <nav class="my-2 my-md-0 mr-md-3">
-          <a class="p-2 text-dark" href="#">Features</a>
-          <a class="p-2 text-dark" href="#">Enterprise</a>
-          <a class="p-2 text-dark" href="#">Support</a>
-          <a class="p-2 text-dark" href="#">Pricing</a>
-        </nav> -->
         <a class="btn btn-outline-green" href="{% url 'account_logout' %}">Log out</a>
       </div>
 
@@ -67,9 +61,6 @@
             var $myForm = $(".form-calculate")
             $myForm.submit(function(event) {
                 event.preventDefault()
-                //TODO: remove log
-                //console.log("prevented form submission!")
-
                 $.ajax({
                     method: "POST",
                     url: "{% url 'calculate_teams' %}",
@@ -90,7 +81,6 @@
                                 var team_cost = 0.0
                                 var team_birdie_avg = 0.0
                                 $.each(team, function(key, player) {
-                                    //names of fields: name, cost, birdie_avg
                                     $("#id_best_teams").append("<tr><td>" + player.name + "</td><td>" + player.cost + "</td><td>" + player.birdie_avg.toFixed(2) + "</td></tr>");
                                     team_cost += player.cost
                                     team_birdie_avg += player.birdie_avg
@@ -106,7 +96,6 @@
                             $.each(data.players_not_found, function(key, value) {
                                 $("#id_players_not_found").append("<tr><td>" + value + "</td></tr>")
                             });
-                            //$("#id_teams").append("</table>")
                         }
                     }
                 });

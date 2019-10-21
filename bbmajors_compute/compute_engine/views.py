@@ -17,7 +17,8 @@ from .engine.compute_cpp import CalculateCombinationsCpp
 def players(request):
     """
     page where player information is input so best teams
-    can be calculated
+    can be calculated. Also where calculated team data is
+    output when javascript enabled on client
     """
     if request.method == 'POST':
         form = TeamForm(request.POST)
@@ -35,7 +36,7 @@ def players(request):
 @login_required
 def teams(request):
     """
-    page where best teams are calculated
+    page where best calculated teams are output
     """
     if request.method == 'POST':
         form = TeamForm(request.POST)
@@ -59,34 +60,15 @@ def calculate_teams(request):
     if (players_raw):
         #call calculation functions
         player_costs = create_costs_dict(players_raw)
-        # for player in player_costs:
-        #     print(f"{player} {player_costs[player]}")
-
         player_stats = create_stats_dict()
-        #TODO: remove print statement
-        # for player in player_stats:
-        #     print(f"{player}: {player_stats[player]}")
 
         players = []
-        
         players, players_not_found = merge_player_data(player_costs, player_stats)
-        #for player in players:
-        #    print(f"{player}")
         results_list = CalculateCombinationsCpp(players, int(num_teams))
-        if not results_list:
-            print("results list empty")
-        for team in results_list:
-            print(team)
-        #results_dict = create_results_dict(results_list)
-        
 
     #return data to requestor
-    data = {
-        'num_teams': num_teams
-    }
+    data = { }
 
-    #if results_dict:
-    #    data['teams'] = results_dict
     if results_list:
         data['teams'] = results_list
         

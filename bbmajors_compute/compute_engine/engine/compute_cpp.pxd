@@ -16,10 +16,8 @@ cdef extern from "Team.cpp":
 cdef extern from "Team.h":
     cdef cppclass Team:
         Team() except +
-        Player GetPlayer1()
-        Player GetPlayer2()
-        Player GetPlayer3()
-        Player GetPlayer4()
+        int GetNumPlayers()
+        Player GetPlayer(int player_index)
         float GetCost() const
         float GetBirdieAvg() const
 
