@@ -31,7 +31,10 @@
                     {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                     {% endif %}
-                    <button id="calc_button" class="btn btn-lg btn-primary btn-green my-4" type="submit">{% trans "Calculate" %}</button>
+                    <button id="id_calc_button" class="btn btn-lg btn-primary btn-green my-4" type="submit">
+                        <span id="id_calc_spinner" class="spinner-border mx-2 d-none" role="status" aria-hidden="true"></span>
+                        {% trans "Calculate" %}
+                    </button>
                 </form>
             </div>
             <div class="col-md-6">
@@ -44,6 +47,8 @@
             </div>
         </div>
     </div>
+
+    <div ></div>
 
     <div class="container-fluid px-0">
         <footer class="py-4">
@@ -100,6 +105,15 @@
                     }
                 });
             })
+        });
+    </script>
+    <script>
+        $(document).ajaxStart(function(){
+            $("#id_calc_button").html('<span id="id_calc_spinner" class="spinner-border mx-2" role="status" aria-hidden="true"></span>Calculating...');
+            $('#id_calc_spinner').removeClass('d-none');
+        }).ajaxStop(function(){
+            $("#id_calc_button").html('<span id="id_calc_spinner" class="spinner-border mx-2 d-none" role="status" aria-hidden="true"></span>Calculate');
+            $('#id_calc_spinner').addClass('d-none');
         });
     </script>
 
