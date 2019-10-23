@@ -1,4 +1,4 @@
-# Fantasy Gold Teams website
+# Fantasy Golf Teams website
 
 Summary: this website calculates the best possible 4-man best ball fantasy golf teams based on player birdie averages. The input you provide to the website are the list of available players to choose from, and the cost for each player. It assumes the allowable team budget is 30,000. The website will then maximize cumulative team birdie average while staying below team cost threshold.
 
