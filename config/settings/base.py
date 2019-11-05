@@ -26,7 +26,7 @@ def get_env_variable(var_name):
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = environ.Path(__file__) - 3  # (Website/config/settings/base.py - 3 = Website/)
+BASE_DIR = environ.Path(__file__) - 3  # (fantasygolfteams/config/settings/base.py - 3 = fantasygolfteams/)
 APPS_DIR = BASE_DIR.path('bbmajors_compute')
 
 env = environ.Env()
@@ -173,7 +173,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = BASE_DIR.path('static')
+STATIC_ROOT = BASE_DIR.path('static_root')
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS

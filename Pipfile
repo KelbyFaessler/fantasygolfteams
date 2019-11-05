@@ -12,6 +12,8 @@ django-widget-tweaks = "*"
 django-allauth = "*"
 psycopg2-binary = "*"
 bs4 = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.7"
