@@ -9,5 +9,5 @@ def index(request):
     main homepage
     """
 
-    return redirect('teams')
+    return redirect('players')
 
