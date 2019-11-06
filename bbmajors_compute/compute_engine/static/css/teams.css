@@ -1,0 +1,84 @@
+/* stylelint-disable property-no-vendor-prefix */
+
+/*
+ * Globals
+ */
+
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: rgb(0, 94, 182);
+}
+
+
+
+.btn-outline-green {
+  background-color: transparent;
+  border-color: rgb(50, 172, 119);
+  color: rgb(50, 172, 119);
+}
+.btn-outline-green:hover {
+  background-color:  rgb(50, 172, 119);
+  border-color:  rgb(50, 172, 119);
+  color: #FFF;
+}
+.btn-outline-green:focus,
+.btn-outline-green:active {
+  box-shadow: 0 0 3pt 2pt rgb(50, 172, 119);
+}
+
+.results {
+  margin: auto;
+  background: #fff;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  padding: 30px;
+  width: 80%;
+  max-width: none;
+}
+
+th, td {
+  padding: 0px 12px;
+}
+.team-header {
+  border-top: 1px solid black;
+}
+
+/*
+ * Forms
+ */
+.form-calculate {
+  padding: 30px;
+  width: 80%;
+  max-width: none;
+}
+
+form label {
+  text-align: left;
+  display: block;
+}
+
+/*
+ * Header
+ */
+.header {
+  background-color: #FFF;
+  border-bottom: rgb(36, 116, 81) solid 1px;
+}
+.header h4 {
+  color: rgb(36, 116, 81);
+}
+
+/*
+ * Footer
+ */
+footer {
+  background-color: rgb(118, 124, 122);
+  color: white;
+  text-align: center;
+  padding: 30px;
+  width: 100%;
+}
