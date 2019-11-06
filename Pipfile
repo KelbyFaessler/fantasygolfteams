@@ -14,6 +14,7 @@ psycopg2-binary = "*"
 bs4 = "*"
 gunicorn = "*"
 whitenoise = "*"
+dj-database-url = "*"
 
 [requires]
 python_version = "3.7"
