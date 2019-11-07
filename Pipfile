@@ -15,6 +15,7 @@ bs4 = "*"
 gunicorn = "*"
 whitenoise = "*"
 dj-database-url = "*"
+cython = "*"
 
 [requires]
 python_version = "3.7"
