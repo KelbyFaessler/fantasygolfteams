@@ -20,7 +20,7 @@ RUN pip install pipenv && pipenv install --system
 #COPY setup.py /code/
 COPY ./bbmajors_compute/compute_engine/engine/ /code/bbmajors_compute/compute_engine/engine/
 COPY . /code/
-RUN python ./printpaths.py
+# RUN python ./printpaths.py
 RUN python ./setup.py build_ext --inplace
 #RUN apt-get update \
 #    && apt-get install -y --no-install-recommends gcc \
