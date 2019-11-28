@@ -8,12 +8,12 @@ struct TeamData
     float totalCost;
     float totalBirdieAvg;
 
-    struct TeamData()
+    TeamData()
         : totalCost(0.0f)
         , totalBirdieAvg(0.0f)
     {};
 
-    struct TeamData(float i_cost, float i_birdieAvg)
+    TeamData(float i_cost, float i_birdieAvg)
         : totalCost(i_cost)
         , totalBirdieAvg(i_birdieAvg)
     {};

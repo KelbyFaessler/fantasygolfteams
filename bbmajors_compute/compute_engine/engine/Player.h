@@ -8,20 +8,20 @@ struct Player
     float cost;
     float birdieAvg;
 
-    struct Player()
+    Player()
     : name("")
     , cost(0.0f)
     , birdieAvg(0.0f)
     {};
 
-    struct Player(const Player& rhs)
+    Player(const Player& rhs)
     : id(rhs.id)
     , name(rhs.name)
     , cost(rhs.cost)
     , birdieAvg(rhs.birdieAvg)
     {};
 
-    struct Player(int i_id, const std::string& i_name, float i_cost, float i_birdieAvg)
+    Player(int i_id, const std::string& i_name, float i_cost, float i_birdieAvg)
     : id(i_id)
     , name(i_name)
     , cost(i_cost)
