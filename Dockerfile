@@ -18,7 +18,7 @@ RUN pip install pipenv && pipenv install --system
 
 # Build cython
 #COPY setup.py /code/
-COPY ./bbmajors_compute/compute_engine/engine/ /code/bbmajors_compute/compute_engine/engine/
+#COPY ./bbmajors_compute/compute_engine/engine/ /code/bbmajors_compute/compute_engine/engine/
 COPY . /code/
 # RUN python ./printpaths.py
 RUN python ./setup.py build_ext --inplace
@@ -38,3 +38,20 @@ RUN ls -la /code/
 RUN ls -la /code/bbmajors_compute
 RUN ls -la /code/bbmajors_compute/compute_engine
 RUN ls -la /code/bbmajors_compute/compute_engine/engine/
+
+
+# =======================================================================================
+# Second container in a two container approach (with first as builder) 
+# =======================================================================================
+#FROM python:3.7-slim
+
+# Set environment variables
+# -----------------------------------------
+# Python won't write to *.pyc files
+#ENV PYTHONDONTWRITEBYTECODE 1
+# Console output not buffered by docker
+#ENV PYTHONUNBUFFERED 1
+
+# Install dependencies
+#COPY Pipfile Pipfile.lock /code/
+#RUN pip install pipenv && pipenv install --system
