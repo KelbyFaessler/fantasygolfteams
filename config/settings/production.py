@@ -6,7 +6,7 @@ env = environ.Env()
 
 SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
 
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['.fantasygolfteams.com'])
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['.fantasygolfteams.com', 'fantasygolfteams.herokuapp.com'])
 
 MIDDLEWARE = []
 MIDDLEWARE = [
