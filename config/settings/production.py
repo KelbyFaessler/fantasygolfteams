@@ -28,5 +28,3 @@ DATABASES = {}
 # The following line automatically uses the 'DATABASE_URL' environment variable
 # see https://pypi.org/project/dj-database-url/ for more info
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-
-DEBUG = True
