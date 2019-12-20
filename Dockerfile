@@ -19,7 +19,7 @@ RUN pip install pipenv && pipenv install --system
 # Build cython
 COPY . /code/
 RUN python ./setup.py build_ext --inplace
-RUN rm -r ./static_root/*
+RUN rm -rv ./static_root/*
 RUN python ./manage.py collectstatic --noinput
 #RUN apt-get update \
 #    && apt-get install -y --no-install-recommends gcc \
