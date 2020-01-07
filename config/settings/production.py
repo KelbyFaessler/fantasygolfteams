@@ -30,6 +30,8 @@ DATABASES = {}
 # see https://pypi.org/project/dj-database-url/ for more info
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
