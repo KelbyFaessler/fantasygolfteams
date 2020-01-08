@@ -31,6 +31,10 @@ DATABASES = {}
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = get_env_variable('MAILGUN_SMTP_SERVER')
+EMAIL_PORT = get_env_variable('MAILGUN_SMTP_PORT')
+EMAIL_HOST_USER = get_env_variable('MAILGUN_SMTP_LOGIN')
+EMAIL_HOST_PASSWORD = get_env_variable('MAILGUN_SMTP_PASSWORD')
 
 LOGGING = {
     'version': 1,
