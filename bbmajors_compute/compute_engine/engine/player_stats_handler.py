@@ -3,7 +3,8 @@
 # put into dictionary of player stats
 ###############################################################################
 
-from urllib.request import urlopen 
+import requests
+import requests_cache
 import re
 from bs4 import BeautifulSoup as bsoup
 
@@ -35,20 +36,22 @@ def get_players_from_html(soup, players_each_year, year):
 # Assumptions:
 #     -Correct place on pga tour website to get birdie avg stat is STATS_URL
 def create_stats_dict():
-    html = urlopen(STATS_URL)  
-    soup_current_year = bsoup(html, features="html.parser")
+    requests_cache.install_cache(expire_after=86400)
+
+    html = requests.get(STATS_URL)
+    soup_current_year = bsoup(html.text, features="html.parser")
     current_year = find_current_year(soup_current_year) 
     current_year_int = int(current_year)
-    html_year_minus_1 = urlopen(YEAR_URL_FIRST_HALF + str(current_year_int - 1) + YEAR_URL_SECOND_HALF)
-    html_year_minus_2 = urlopen(YEAR_URL_FIRST_HALF + str(current_year_int - 2) + YEAR_URL_SECOND_HALF)
+    html_year_minus_1 = requests.get(YEAR_URL_FIRST_HALF + str(current_year_int - 1) + YEAR_URL_SECOND_HALF)
+    html_year_minus_2 = requests.get(YEAR_URL_FIRST_HALF + str(current_year_int - 2) + YEAR_URL_SECOND_HALF)
 
     stats_dict = {}
     players_each_year = {}
 
     get_players_from_html(soup_current_year, players_each_year, current_year_int)
-    soup_year_minus_1 = bsoup(html_year_minus_1, features="html.parser")
+    soup_year_minus_1 = bsoup(html_year_minus_1.text, features="html.parser")
     get_players_from_html(soup_year_minus_1, players_each_year, current_year_int - 1)
-    soup_year_minus_2 = bsoup(html_year_minus_2, features="html.parser")
+    soup_year_minus_2 = bsoup(html_year_minus_2.text, features="html.parser")
     get_players_from_html(soup_year_minus_2, players_each_year, current_year_int - 2)
 
     for year, players in players_each_year.items():
