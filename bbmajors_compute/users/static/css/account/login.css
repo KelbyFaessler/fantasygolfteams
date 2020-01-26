@@ -80,3 +80,7 @@ body {
     -webkit-border-radius: 0 0 10px 10px;
     border-radius: 0 0 10px 10px;
 }
+
+.error {
+  color: rgb(255, 81, 81);
+}
