@@ -39,7 +39,7 @@
             </div>
             <div class="col-md-6">
                 <div class="results">
-                    <h3 class="text-center mt-4 mb-3">{% trans "Results:" %}</h3>
+                    <h3 id="results-header" class="text-center mt-4 mb-3">{% trans "Results:" %}</h3>
                     <div id="id_teams" class="teams">
 
                     </div>
@@ -76,6 +76,10 @@
                     dataType: 'json',
                     success: function(data) {
                         $("#id_teams").empty()
+                        $("#id_total_teams").remove()
+                        if (data.total_teams) {
+                            $('<p id="id_total_teams" class="text-center"> Number of teams analyzed: ' + data.total_teams + '</p>').insertAfter("#results-header");
+                        }
                         if (data.teams) {
                             $("#id_teams").append('<table id="id_best_teams"></table>');
                             $("#id_best_teams").append("<tr><th>Name</th><th>Cost</th><th>Birdie Avg</th></tr>");

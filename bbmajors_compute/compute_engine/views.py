@@ -71,6 +71,9 @@ def calculate_teams(request):
 
     if results_list:
         data['teams'] = results_list
+        total_players = len(players)
+        total_teams = (total_players * (total_players - 1) * (total_players - 2) * (total_players - 3)) / (4 * 3 * 2 * 1)
+        data['total_teams'] = int(total_teams)
         
     if players_not_found:
         data['players_not_found'] = players_not_found
